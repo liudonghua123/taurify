@@ -1,6 +1,6 @@
 {
   "name": "@liudonghua123/taurify",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Package html based app via tauri v2, support windows, macos, linux, android and ios.",
   "type": "module",
   "engines": {
@@ -40,7 +40,8 @@
     "test:coverage": "vitest run unit --coverage.enabled --coverage.all",
     "prettier": "prettier \"{src,__{tests}__}/**/*.{ts,mts}\" --config .prettierrc --write",
     "prettier:check": "prettier \"{src,__{tests}__}/**/*.{ts,mts}\" --config .prettierrc --check",
-    "test:watch": "vitest unit"
+    "test:watch": "vitest unit",
+    "prepare": "npm run build"
   },
   "author": "Jakub Synowiec <jsynowiec@users.noreply.github.com>",
   "license": "Apache-2.0",
