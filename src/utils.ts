@@ -29,7 +29,7 @@ export async function execPipeOutput(
   return new Promise((resolve, reject) => {
     // split the command into program and arguments
     const [program, ...args] = command.split(' ');
-    const command_process = spawn(program, args, options);
+    const command_process = spawn(program, args, { shell: true, ...options });
     // Stream stdout to the parent process
     command_process.stdout.pipe(process.stdout);
     // Stream stderr to the parent process
@@ -62,7 +62,7 @@ export async function execWithOutput(
   return new Promise((resolve, reject) => {
     // split the command into program and arguments
     const [program, ...args] = command.split(' ');
-    const command_process = spawn(program, args, options);
+    const command_process = spawn(program, args, { shell: true, ...options });
     let stdout = '';
     let stderr = '';
     // Stream stdout to the parent process and collect it
