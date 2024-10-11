@@ -45,6 +45,8 @@ export async function taurify({
       tauriConf.productName = productName;
       tauriConf.identifier = identifier;
       tauriConf.version = version;
+      // https://v2.tauri.app/reference/config/#mainbinaryname
+      tauriConf.mainBinaryName = productName;
       await writeFile(
         resolve(tauriAppDir, 'src-tauri/tauri.conf.json'),
         JSON.stringify(tauriConf, null, 2),
