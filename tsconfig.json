@@ -4,8 +4,8 @@
     "module": "node16",
     "lib": ["ES2022", "DOM"],
     "moduleResolution": "node16",
-    "rootDir": ".",
-    "outDir": "build",
+    "rootDir": "./src",
+    "outDir": "./build",
     "allowSyntheticDefaultImports": true,
     "importHelpers": true,
     "alwaysStrict": true,
@@ -19,5 +19,5 @@
     "noImplicitThis": false,
     "strictNullChecks": false,
   },
-  "include": ["src", "__tests__"]
+  "include": ["src/**/*.ts"],
 }
