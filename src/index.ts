@@ -17,17 +17,19 @@ export async function taurify({
   try {
     // resolve the tauri app directory
     const tauriAppDir = resolve(import.meta.dirname, '..', 'tauri-app');
+    // resolve the npm command
+    const npmCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm';
 
     // initialize tauri app
     await spinnerText('Initializing Tauri app', async () =>
-      execWithOutput(`npm install`, {
+      execWithOutput(`${npmCommand} install`, {
         cwd: tauriAppDir,
       }),
     );
 
     // update icon of tauri app
     await spinnerText('Updating icon', async () =>
-      execWithOutput(`npm run tauri icon --i ${icon}`, {
+      execWithOutput(`${npmCommand} run tauri icon --i ${icon}`, {
         cwd: tauriAppDir,
       }),
     );
@@ -49,7 +51,7 @@ export async function taurify({
       );
     });
 
-    let buildCommand = `npm run tauri -- build`;
+    let buildCommand = `${npmCommand} run tauri -- build`;
     if (tauriConfJson) buildCommand += ` --config ${tauriConfJson}`;
     if (verbose) buildCommand += ` --verbose`;
     if (bundles) buildCommand += ` --bundles ${bundles}`;
