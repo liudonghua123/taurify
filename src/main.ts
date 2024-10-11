@@ -3,7 +3,6 @@
 import { Command } from 'commander';
 import { taurify } from './index.js';
 import { defaultOptions, Options } from './options.js';
-import ora from 'ora';
 import fs from 'fs';
 import { resolve, extname, join } from 'path';
 
@@ -83,9 +82,8 @@ program
     // Normalize the outputDir path
     options.outputDir = resolve(options.outputDir);
 
-    const spinner = ora('Building...').start();
+    console.info('Building...');
     await taurify(options);
-    spinner.succeed('Build completed successfully.');
   });
 
 program.parse(process.argv);
