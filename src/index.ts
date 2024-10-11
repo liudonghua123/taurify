@@ -74,7 +74,7 @@ export async function taurify({
         process.platform === 'win32' ? `${productName}.exe` : productName;
       await cp(
         `${resolve(tauriAppDir, 'src-tauri/target/release', buildBinary)}`,
-        `${outputDir}`,
+        `${outputDir}/${buildBinary}`,
       );
     });
   } catch (error) {
