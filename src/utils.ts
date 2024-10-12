@@ -1,5 +1,5 @@
 import { spawn, SpawnOptionsWithoutStdio } from 'child_process';
-import ora from 'ora';
+import ora, { Options } from 'ora';
 import process from 'process';
 
 /**
@@ -8,12 +8,14 @@ import process from 'process';
  * @param fn the function to execute
  */
 export async function spinnerText(
-  message: string,
-  fn: () => Promise</* eslint-disable  @typescript-eslint/no-explicit-any */ any>,
+  message: string | Options,
+  fn?: () => Promise</* eslint-disable  @typescript-eslint/no-explicit-any */ any>,
 ) {
   const spinner = ora(message).start();
   try {
-    await fn();
+    if (fn) {
+      await fn();
+    }
     spinner.succeed();
   } catch (error) {
     spinner.fail();

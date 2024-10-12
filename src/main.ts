@@ -10,8 +10,8 @@ import { isValidUrl } from './utils.js';
 const program = new Command();
 
 program
-  .version('1.0.0')
-  .option('-v, --verbose', 'Enable verbose output', defaultOptions.verbose)
+  .option('-v, --version', 'Version of the package app', defaultOptions.version)
+  .option('--verbose', 'Enable verbose output', defaultOptions.verbose)
   .option(
     '-i, --icon <path>',
     'Path to the source icon (squared PNG or SVG file with transparency)',

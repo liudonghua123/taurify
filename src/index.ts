@@ -1,7 +1,8 @@
 import { Options } from './options.js';
 import { execPipeOutput, execWithOutput, spinnerText } from './utils.js';
-import { resolve } from 'path';
+import { basename, resolve } from 'path';
 import { readFile, writeFile, cp, symlink, rm } from 'fs/promises';
+import { existsSync } from 'fs';
 
 export async function taurify({
   productName,
@@ -79,13 +80,71 @@ export async function taurify({
     // copy the built app to the output directory
     await spinnerText('Copying built app', async () => {
       // the build binary is located in src-tauri/target/release/${productName}, with .exe extension on Windows
-      // TODO: handle bundles like msi/nsis on Windows, deb/rpm on Linux, and dmg on macOS
       const buildBinary =
         process.platform === 'win32' ? `${productName}.exe` : productName;
-      await cp(
-        `${resolve(tauriAppDir, 'src-tauri/target/release', buildBinary)}`,
-        `${outputDir}/${buildBinary}`,
+      spinnerText(
+        {text: `Copying ${buildBinary} to ${outputDir}`, indent: 4},
+        async () =>
+          await await cp(
+            `${resolve(tauriAppDir, 'src-tauri/target/release', buildBinary)}`,
+            `${outputDir}/${buildBinary}`,
+          ),
       );
+      // handle bundles like msi/nsis on Windows, deb/rpm on Linux, and dmg on macOS
+      const getPossibleBundles = (os) => {
+        const arch = {
+          win32: {
+            ia32: 'x86',
+            x64: 'x64',
+            arm64: 'arm64',
+          },
+          linux: {
+            ia32: 'i386',
+            x64: 'amd64',
+            arm: 'armhf',
+            arm64: 'arm64',
+          },
+          darwin: {
+            x64: 'x64',
+            arm64: 'aarch64',
+          },
+        }[process.platform][process.arch];
+        switch (os) {
+          case 'win32':
+            return [
+              `${resolve(tauriAppDir, 'src-tauri/target/release/bundle/msi/', `${productName}_${version}_${arch}_en-US.msi`)}`,
+              `${resolve(tauriAppDir, 'src-tauri/target/release/bundle/nsis/', `${productName}_${version}_${arch}-setup.exe`)}`,
+            ];
+          case 'linux':
+            // eslint-disable-next-line no-case-declarations
+            const rpmArch = {
+              ia32: 'i386',
+              x64: 'x86_64',
+              arm: 'armhfp',
+              arm64: 'aarch64',
+            }[process.arch];
+            return [
+              `${resolve(tauriAppDir, 'src-tauri/target/release/bundle/deb/', `${productName}_${version}_${arch}.deb`)}`,
+              `${resolve(tauriAppDir, 'src-tauri/target/release/bundle/rpm/', `${productName}_${version}-1.${rpmArch}.rpm`)}`,
+              `${resolve(tauriAppDir, 'src-tauri/target/release/bundle/appimage/', `${productName}_${version}_${arch}.AppImage`)}`,
+            ];
+          case 'darwin':
+            return [
+              `${resolve(tauriAppDir, 'src-tauri/target/release/bundle/dmg/', `${productName}_${version}_${arch}.dmg`)}`,
+            ];
+          default:
+            return [];
+        }
+      };
+      const possibleBundles = getPossibleBundles(process.platform);
+      for (const bundle of possibleBundles) {
+        if (existsSync(bundle)) {
+          spinnerText(
+            {text: `Copying ${basename(bundle)} to ${outputDir}`, indent: 4},
+            async () => await cp(bundle, `${outputDir}/${basename(bundle)}`),
+          );
+        }
+      }
     });
   } catch (error) {
     console.error(error);
