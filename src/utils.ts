@@ -2,6 +2,11 @@ import { spawn, SpawnOptionsWithoutStdio } from 'child_process';
 import ora from 'ora';
 import process from 'process';
 
+/**
+ * Show a spinner while executing a function.
+ * @param message the message to display
+ * @param fn the function to execute
+ */
 export async function spinnerText(
   message: string,
   fn: () => Promise</* eslint-disable  @typescript-eslint/no-explicit-any */ any>,
@@ -13,6 +18,20 @@ export async function spinnerText(
   } catch (error) {
     spinner.fail();
     throw error;
+  }
+}
+
+/**
+ * Check whether a given string is a valid URL.
+ * @param url the url to check
+ * @returns
+ */
+export function isValidUrl(url: string) {
+  try {
+    new URL(url);
+    return true;
+  } catch {
+    return false;
   }
 }
 

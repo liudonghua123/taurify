@@ -1,7 +1,7 @@
 import { Options } from './options.js';
 import { execPipeOutput, execWithOutput, spinnerText } from './utils.js';
 import { resolve } from 'path';
-import { readFile, writeFile, cp } from 'fs/promises';
+import { readFile, writeFile, cp, symlink, rm } from 'fs/promises';
 
 export async function taurify({
   productName,
@@ -42,6 +42,16 @@ export async function taurify({
       );
       const tauriConf = JSON.parse(tauriConfJson);
       tauriConf.build.frontendDist = frontendDist;
+      // if the frontendDist is directory, it should be relative to the tauri app directory, otherwise it should be a URL
+      // create ../dist link to the frontendDist directory if it is a directory
+      if (!frontendDist.includes('://')) {
+        const distLink = resolve(tauriAppDir, '..', 'dist');
+        // remove the existing ../dist force even it is not a symlink or does not exist
+        await rm(distLink, { recursive: true, force: true });
+        // create symlink to the frontendDist directory
+        await symlink(resolve(frontendDist), distLink, 'dir');
+        tauriConf.build.frontendDist = '../dist';
+      }
       tauriConf.productName = productName;
       tauriConf.identifier = identifier;
       tauriConf.version = version;
