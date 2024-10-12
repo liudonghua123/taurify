@@ -79,6 +79,8 @@ program
     options.productName ??= productName;
     options.identifier = `com.${productName}.app`;
     options.frontendDist = app;
+    // normalize the icon path
+    options.icon = resolve(options.icon);
 
     // Normalize the outputDir path
     options.outputDir = resolve(options.outputDir);
