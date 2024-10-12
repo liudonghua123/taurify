@@ -1,7 +1,7 @@
 import { resolve } from 'path';
 
 export interface Options {
-  productName: string;
+  productName?: string;
   identifier: string;
   version: string;
   frontendDist?: string;
@@ -13,7 +13,6 @@ export interface Options {
 }
 
 export const defaultOptions: Options = {
-  productName: 'tauri-app',
   identifier: `com.tauri-app.app`,
   version: '1.0.0',
   outputDir: '.',

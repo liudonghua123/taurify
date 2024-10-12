@@ -76,7 +76,7 @@ program
 
     // Overwrite the product-name, identifier, according to the app name
     // Replace space, underscore, and hyphen with a single hyphen
-    options.productName = productName;
+    options.productName ??= productName;
     options.identifier = `com.${productName}.app`;
     options.frontendDist = app;
 
