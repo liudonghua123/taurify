@@ -46,7 +46,7 @@ export async function taurify({
       // if the frontendDist is directory, it should be relative to the tauri app directory, otherwise it should be a URL
       // create ../dist link to the frontendDist directory if it is a directory
       if (!frontendDist.includes('://')) {
-        const distLink = resolve(tauriAppDir, '..', 'dist');
+        const distLink = resolve(tauriAppDir, 'dist');
         // remove the existing ../dist force even it is not a symlink or does not exist
         await rm(distLink, { recursive: true, force: true });
         // create symlink to the frontendDist directory
