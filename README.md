@@ -1,57 +1,103 @@
-# taurify
+# Taurify
 
-Package HTML-based app via Tauri v2, supporting Windows, macOS, Linux, Android, and iOS.
+Package HTML-based applications using Tauri v2, with support for Windows, macOS, Linux, Android, and iOS.
 
 ## Introduction
 
-`taurify` is a tool to package HTML-based applications using Tauri v2. It supports multiple platforms including Windows, macOS, Linux, Android, and iOS.
+`Taurify` is a cross-platform tool designed to help developers package HTML-based applications into native executables using the [Tauri](https://tauri.app/) framework. With `Taurify`, your web application can run on multiple platforms including **Windows**, **macOS**, **Linux**, **Android**, and **iOS**, while maintaining a lightweight footprint and ensuring performance.
 
-## Usage
+The tool offers flexibility and customization by allowing developers to modify Tauri project files located in the application directory. On Windows, this can be found at `%APPDATA%\npm\node_modules\@liudonghua123\taurify\tauri-app`. Similar methods are available for macOS and Linux users. 
 
-### Installation
+### Key Benefits
 
-To install `taurify`, you need to have Node.js (>= 22) installed. You can install `taurify` using npm:
+- **Lightweight and Secure**: Unlike traditional Electron apps, `Taurify` uses system-native webviews, resulting in smaller binary sizes and reduced memory consumption.
+- **Customizable**: Developers have complete control over the Tauri project files, allowing for deep customization.
+- **Cross-Platform Support**: Package apps for desktop platforms (Windows, macOS, Linux) as well as mobile platforms (Android, iOS).
 
-```sh
+> **Note:** This project is under active development, with ongoing bug fixes and new features arriving soon. Contributions are welcome!
+
+## Prerequisites
+
+Before using `Taurify`, ensure the following dependencies are installed on your system:
+
+- **[Node.js](https://nodejs.org/)** (version 22 or higher)
+- **[Rust](https://rustup.rs/)** (to compile the Tauri app)
+- Any additional dependencies listed in the [Tauri Prerequisites](https://tauri.app/start/prerequisites/) (e.g., system packages required for your platform)
+
+Ensure that your system meets the [Tauri prerequisites](https://tauri.app/start/prerequisites/) for building applications. These may include specific tools or libraries required for different platforms like Xcode for macOS or Webview2 for Windows.
+
+## Installation
+
+You can install `Taurify` globally using `npm`:
+
+```bash
 npm install -g @liudonghua123/taurify
 ```
 
-### Running
+After installation, you will have access to the `taurify` command, which you can use to package your HTML-based applications.
 
-To package your HTML-based app, you can use the following command:
+## Usage
 
-```sh
+Once installed, `Taurify` allows you to package your HTML app using a simple command-line interface.
+
+### Basic Command
+
+To package your HTML-based app, run the following command:
+
+```bash
 taurify <path-to-html-app> [options]
 ```
 
-#### Options
+- `<path-to-html-app>`: Path to the root directory of your HTML project which contains `index.html` or the url you to package (e.g., `./my-app` or `https://github.com`).
 
-- `-v, --version`: Version of the package app (default: `1.0.0`)
-- `--verbose`: Enable verbose output
-- `-i, --icon <path>`: Path to the source icon (squared PNG or SVG file with transparency)
-- `-b, --bundles <bundles>`: Space or comma-separated list of bundles to package.
-- `-p, --product-name <name>`: Name of the app
-- `--identifier <identifier>`: Identifier of the app
-- `-o, --output-dir <path>`: Output directory (default: `.`)
-- `-c, --config <config>`: JSON string or path to JSON file to merge with `tauri.conf.json`
+### Command Options
+
+- `-i, --icon <path>`: Path to the app icon. The icon should be a squared PNG or SVG file with transparency.
+- `-p, --product-name <name>`: Sets the name of the packaged app (e.g., `tauri-app`).
+- `-o, --output-dir <path>`: Directory to place the generated files (default: `.`).
+- `-c, --config <config>`: A JSON string or path to a JSON file to merge with the default `tauri.conf.json`.
+- `-b, --bundles <bundles>`: Space- or comma-separated list of bundles to package (e.g., `deb`, `appimage`, `msi`, `dmg`).
+- `--identifier <identifier>`: The unique identifier for your application (e.g., `com.tauri-app.app`).
+- `-v, --version <version>`: The version number of the app (default: `1.0.0`).
+- `--verbose`: Enables verbose logging to assist with debugging or output details.
 
 ### Example
 
-```sh
-taurify ./my-html-app -i ./icon.png -p myapp --identifier com.myapp.app -o ./output
+Here is an example of how to package an HTML app with a custom icon and app name:
+
+```bash
+taurify ./my-html-app -i ./icon.png -p my-html-app --identifier com.my-html-app.app -o .
 ```
 
-## Contribution
+This command will package the app located in `./my-html-app`, using the specified icon and product name, and output the result to the `.` directory.
 
-Contributions are welcome! Please follow these steps to contribute:
+## Features
 
-1. Fork the repository.
+- **Cross-Platform Packaging**: Package your app for desktop and mobile platforms with one tool.
+- **Tauri v2 Integration**: Leverage Tauri v2's new features and improvements for faster, smaller, and more secure apps.
+- **Customizable Project Files**: Modify and extend the Tauri project to suit your specific needs.
+- **Active Development**: New features and bug fixes are regularly added, including templates and support for Android/iOS builds.
+
+## Roadmap / TODOs
+
+- [ ] Add support for different templates for easier customization.
+- [ ] Add Android and iOS build capabilities for mobile deployment.
+- [ ] Provide more in-depth documentation and examples for advanced usage.
+- [ ] Integrate more bundling options, like `.apk` and `.ipa` for mobile.
+
+## Contributing
+
+Contributions are encouraged! If you'd like to contribute to `Taurify`, please follow these steps:
+
+1. Fork this repository.
 2. Create a new branch (`git checkout -b feature-branch`).
-3. Make your changes.
-4. Commit your changes (`git commit -m 'Add some feature'`).
-5. Push to the branch (`git push origin feature-branch`).
-6. Open a pull request.
+3. Make your changes and improvements.
+4. Commit your changes (`git commit -m 'Add new feature'`).
+5. Push to your branch (`git push origin feature-branch`).
+6. Open a pull request on the main repository.
+
+We value any contributions, whether it's new features, bug fixes, documentation improvements, or testing!
 
 ## License
 
-This project is licensed under the Apache-2.0 License. See the LICENSE file for details.
+This project is licensed under the **MIT License**. See the [LICENSE](./LICENSE) file for full details.
