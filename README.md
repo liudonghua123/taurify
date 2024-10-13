@@ -98,6 +98,17 @@ Contributions are encouraged! If you'd like to contribute to `Taurify`, please f
 
 We value any contributions, whether it's new features, bug fixes, documentation improvements, or testing!
 
+## FAQ
+
+- `Error: EPERM: operation not permitted, symlink` on Windows, This tool needs to create symbolic link. Creating symbolic links requires elevated permissions in most cases. Even if you are logged in as an administrator, the command prompt might not be running with elevated privileges. To fix it, try to use one of the following methods.
+  - Method 1: Open an elevated Command Prompt. (simple)
+      - Press Win + X and select Command Prompt (Admin) or Windows Terminal (Admin).
+  - Method 2: On Windows 10/11, you can enable Developer Mode to allow the creation of symbolic links without needing administrator privileges. (prefered)
+      - Open Settings (Win + I).
+      - Go to Update & Security → For developers.
+      - Under Developer Mode, toggle the option to On.
+      - After enabling Developer Mode, you should be able to create symlinks without running the command prompt as administrator.
+
 ## License
 
 This project is licensed under the **MIT License**. See the [LICENSE](./LICENSE) file for full details.
