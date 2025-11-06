@@ -82,7 +82,8 @@ program
     options.frontendDist = app;
     // normalize the icon path
     options.icon = resolve(options.icon);
-
+    // normalize the config path
+    options.config = resolve(options.config);
     // Normalize the outputDir path
     options.outputDir = resolve(options.outputDir);
 
