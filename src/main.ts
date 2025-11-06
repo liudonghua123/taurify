@@ -12,6 +12,7 @@ const program = new Command();
 program
   .option('-v, --version', 'Version of the package app', defaultOptions.version)
   .option('--verbose', 'Enable verbose output', defaultOptions.verbose)
+  .option('--debug', 'Build with debug mode', defaultOptions.debug)
   .option(
     '-i, --icon <path>',
     'Path to the source icon (squared PNG or SVG file with transparency)',

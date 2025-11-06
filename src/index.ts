@@ -13,6 +13,7 @@ export async function taurify({
   icon,
   tauriConfJson,
   verbose,
+  debug,
   bundles,
 }: Options) {
   try {
@@ -67,6 +68,7 @@ export async function taurify({
     let buildCommand = `${npmCommand} run tauri -- build`;
     if (tauriConfJson) buildCommand += ` --config ${tauriConfJson}`;
     if (verbose) buildCommand += ` --verbose`;
+    if (debug) buildCommand += ` --debug`;
     if (bundles) buildCommand += ` --bundles ${bundles}`;
     if (verbose) {
       await execPipeOutput(buildCommand, { cwd: tauriAppDir });
@@ -79,14 +81,15 @@ export async function taurify({
 
     // copy the built app to the output directory
     await spinnerText('Copying built app', async () => {
-      // the build binary is located in src-tauri/target/release/${productName}, with .exe extension on Windows
+      // the build binary is located in src-tauri/target/release/${productName} (or debug if --debug is used), with .exe extension on Windows
+      const buildProfile = debug ? 'debug' : 'release';
       const buildBinary =
         process.platform === 'win32' ? `${productName}.exe` : productName;
       spinnerText(
         {text: `Copying ${buildBinary} to ${outputDir}`, indent: 4},
         async () =>
           await await cp(
-            `${resolve(tauriAppDir, 'src-tauri/target/release', buildBinary)}`,
+            `${resolve(tauriAppDir, `src-tauri/target/${buildProfile}`, buildBinary)}`,
             `${outputDir}/${buildBinary}`,
           ),
       );
@@ -112,8 +115,8 @@ export async function taurify({
         switch (os) {
           case 'win32':
             return [
-              `${resolve(tauriAppDir, 'src-tauri/target/release/bundle/msi/', `${productName}_${version}_${arch}_en-US.msi`)}`,
-              `${resolve(tauriAppDir, 'src-tauri/target/release/bundle/nsis/', `${productName}_${version}_${arch}-setup.exe`)}`,
+              `${resolve(tauriAppDir, `src-tauri/target/${buildProfile}/bundle/msi/`, `${productName}_${version}_${arch}_en-US.msi`)}`,
+              `${resolve(tauriAppDir, `src-tauri/target/${buildProfile}/bundle/nsis/`, `${productName}_${version}_${arch}-setup.exe`)}`,
             ];
           case 'linux':
             // eslint-disable-next-line no-case-declarations
@@ -124,13 +127,13 @@ export async function taurify({
               arm64: 'aarch64',
             }[process.arch];
             return [
-              `${resolve(tauriAppDir, 'src-tauri/target/release/bundle/deb/', `${productName}_${version}_${arch}.deb`)}`,
-              `${resolve(tauriAppDir, 'src-tauri/target/release/bundle/rpm/', `${productName}_${version}-1.${rpmArch}.rpm`)}`,
-              `${resolve(tauriAppDir, 'src-tauri/target/release/bundle/appimage/', `${productName}_${version}_${arch}.AppImage`)}`,
+              `${resolve(tauriAppDir, `src-tauri/target/${buildProfile}/bundle/deb/`, `${productName}_${version}_${arch}.deb`)}`,
+              `${resolve(tauriAppDir, `src-tauri/target/${buildProfile}/bundle/rpm/`, `${productName}_${version}-1.${rpmArch}.rpm`)}`,
+              `${resolve(tauriAppDir, `src-tauri/target/${buildProfile}/bundle/appimage/`, `${productName}_${version}_${arch}.AppImage`)}`,
             ];
           case 'darwin':
             return [
-              `${resolve(tauriAppDir, 'src-tauri/target/release/bundle/dmg/', `${productName}_${version}_${arch}.dmg`)}`,
+              `${resolve(tauriAppDir, `src-tauri/target/${buildProfile}/bundle/dmg/`, `${productName}_${version}_${arch}.dmg`)}`,
             ];
           default:
             return [];

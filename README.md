@@ -60,6 +60,7 @@ taurify <path-to-html-app> [options]
 - `--identifier <identifier>`: The unique identifier for your application (e.g., `com.tauri-app.app`).
 - `-v, --version <version>`: The version number of the app (default: `1.0.0`).
 - `--verbose`: Enables verbose logging to assist with debugging or output details.
+- `--debug`: Build the app in debug mode instead of release mode. Debug builds are faster to compile but produce larger binaries without optimizations.
 
 ### Example
 

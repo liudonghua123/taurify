@@ -9,6 +9,7 @@ export interface Options {
   icon?: string;
   tauriConfJson?: string;
   verbose: boolean;
+  debug: boolean;
   bundles?: string;
 }
 
@@ -17,5 +18,6 @@ export const defaultOptions: Options = {
   version: '1.0.0',
   outputDir: '.',
   verbose: false,
+  debug: false,
   icon: resolve(import.meta.dirname, '..', 'tauri-app', 'app-icon.png'),
 };
