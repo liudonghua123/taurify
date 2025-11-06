@@ -11,7 +11,7 @@ export async function taurify({
   frontendDist,
   outputDir,
   icon,
-  tauriConfJson,
+  config,
   verbose,
   debug,
   bundles,
@@ -66,7 +66,7 @@ export async function taurify({
     });
 
     let buildCommand = `${npmCommand} run tauri -- build`;
-    if (tauriConfJson) buildCommand += ` --config ${tauriConfJson}`;
+    if (config) buildCommand += ` --config ${config}`;
     if (verbose) buildCommand += ` --verbose`;
     if (debug) buildCommand += ` --debug`;
     if (bundles) buildCommand += ` --bundles ${bundles}`;

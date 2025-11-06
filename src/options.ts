@@ -7,7 +7,7 @@ export interface Options {
   frontendDist?: string;
   outputDir: string;
   icon?: string;
-  tauriConfJson?: string;
+  config?: string;
   verbose: boolean;
   debug: boolean;
   bundles?: string;
